@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DNAS Authentication</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="description" content="A replacement DNAS server emulator for PlayStation Multiplayer Games">
+		<meta name="tags" content="Sony, PlayStation, DNAS, Dynamic Network Authentication System, authentication, replacement, emulator, uptime, multiplayer">
+		<meta property="og:title" content="OpenDNAS">
+		<meta property="og:type" content="game">
+		<meta property="og:url" content="https://dnas.hashsploit.net">
+		<meta property="og:image" content="/favicon.png">
+		<meta property="og:site_name" content="DNAS Authentication">
+		<meta property="og:description" content="A replacement DNAS server emulator for PlayStation Multiplayer Games.">
+		<meta name="theme-color" content="#444444">
+		<meta name="msapplication-navbutton-color" content="#444444">
+		<meta name="apple-mobile-web-app-status-bar-style" content="#444444">
+		<link rel="stylesheet" type="text/css" href="/style.css">
+		<link rel="icon" type="image/png" href="/favicon.png">
+		<link type="application/json+oembed" href="/oembed.json">
+	</head>
+	<body>
+		<h1>OpenDNAS</h1>
+		<img src="OpenDNAS.png" alt="OpenDNAS" width="300px" height="180" style="border-radius:3px">
+
+		<h3>What is OpenDNAS?</h3>
+		<p>OpenDNAS is a Open Source implementation of a DNAS server for authenticating clients to play multiplayer games.</p>
+		<p>On April 4, 2016; SCEI discontinued the official DNAS servers, thus forcefully taking down hundreds of multiplayer game titles with it.</p>
+		<p>OpenDNAS aims to be a solution to this, providing successful authentication bypass for emulators and genuine PlayStations.</p>
+		<p>Sony defines DNAS as:</p>
+		<pre>
+"DNAS" (Dynamic Network Authentication System) is a proprietary authentication system
+created by Sony Computer Entertainment Inc. ("SCEI").
+
+DNAS retrieves information about a user’s hardware and software for authentication,
+copy protection, account blocking, system, rules, or game management and other purposes.
+
+The information collected does not identify the user personally. A publisher can combine
+this information with personally identifying information from the publisher’s records if
+the user provides the personally identifying information. Before providing any personal
+information to a publisher please be sure to review the publisher’s privacy policy and
+terms and conditions of use. Do not provide personally identifying information to a
+publisher unless you accept the conditions of use and terms of their privacy policy.
+
+SCEI, Sony Computer Entertainment America ("SCEA") and their affiliates cannot guarantee
+the continuous operation of the "DNAS" servers. SCEA shall not be liable for any delay or
+failure of the "DNAS" servers to perform.
+		</pre>
+
+
+
+		<p>Official DNAS server domains:</p>
+		<ul>
+			<li>gate1.us.dnas.playstation.org</li>
+			<li>gate1.jp.dnas.playstation.org</li>
+			<li>gate1.eu.dnas.playstation.org</li>
+		</ul>
+		
+		<p>OpenDNAS server domains:</p>
+		<ul>
+			<li>dnas.hashsploit.net</li>
+		</ul>
+
+		<!-- Ratchet & Clank: Up Your Arsenal - Multiplayer Menu -->
+		<audio controls>
+			<source src="multiplayer.ogg" type="audio/ogg">
+			<source src="multiplayer.mp3" type="audio/mp3">
+		</audio>
+
+		<h3 id="endpoints">Gateways</h3>
+		<p>Documented gateways this OpenDNAS server has.</p>
+		<ul>
+			<li><a href="/us-gw">/us-gw</a> - United States Gateway Service</li>
+			<li><a href="/gai-gw">/gai-gw</a> - Japan Gateway Service</li>
+			<li><a href="/eu-gw">/eu-gw</a> - Europe Gateway Service</li>
+		</ul>
+
+		<h3 id="errors">Errors</h3>
+		<p>
+			Documented errors that may occur while using DNAS. Thanks to <a href="https://www.dslreports.com/faq/dnas/2.0_DNAS_Error_Codes">this article</a>.
+		</p>
+		<ul>
+			<li><span class="error_authentication">-101 to -108:</span> Authentication</li>
+			<li><span class="error_downloading">-201 to -204:</span> Downloading</li>
+			<li><span class="error_hardware">-401 to -404:</span> Hardware</li>
+			<li><span class="error_network">-601 to -625:</span> Network</li>
+			<li><span class="error_uid">-701 to -703:</span> Unique ID</li>
+			<li><span class="error_unexpected">-800 to -1099:</span> Unexpected</li>
+		</ul>
+
+		<p>Possible resolutions for errors <b>-402</b> or <b>-403</b>:</p>
+		<ul>
+			<li>Most likely mod chip related. Try disabling the mod chip.</li>
+		</ul>
+
+		<p>Possible resolutions for errors <b>-611</b> or <b>-612</b>:</p>
+		<ul>
+			<li>Related to a firewall issue or network with closed ports.</li>
+			<li>Try opening the suggested ports.</li>
+		</ul>
+
+		<table border="1">
+			<tr>
+				<th>No</th>
+				<th>ID</th>
+				<th>Description</th>
+			</tr>
+			<tr id="error_-101">
+				<td class="error_authentication">-101</td>
+				<td>sceDNAS2_SS_SERVER_BUSY</td>
+				<td>DNAS server is busy. "DNAS Error (-101) The network authentication server is busy. Please try again later."</td>
+			</tr>
+			<tr id="error_-102">
+				<td class="error_authentication">-102</td>
+				<td>sceDNAS2_SS_BEFORE_SERVICE</td>
+				<td>DNAS authentication service period has not started for this title. "DNAS Error (-102) This software title is not in service."</td>
+			</tr>
+			<tr id="error_-103">
+				<td class="error_authentication">-102</td>
+				<td>sceDNAS2_SS_OUT_OF_SERVICE</td>
+				<td>DNAS authentication service period has ended for this title. "DNAS Error (-103) This software title is not in service."</td>
+			</tr>
+			<tr id="error_-104">
+				<td class="error_authentication">-104</td>
+				<td>sceDNAS2_SS_END_OF_SERVICE</td>
+				<td>All DNAS services have stopped. "DNAS Error (-104) The network authentication server is not in service."</td>
+			</tr>
+			<tr id="error_-105">
+				<td class="error_authentication">-105</td>
+				<td>sceDNAS2_SS_SESSION_TIME_OUT</td>
+				<td>Session timeout. "DNAS Error (-105) Connection to the network authentication server has timed out. Please try again later."</td>
+			</tr>
+			<tr id="error_-106">
+				<td class="error_authentication">-106</td>
+				<td>sceDNAS2_SS_INVALID_SERVER</td>
+				<td>DNAS library (PS2) received an invalid server response. "DNAS Error (-106) A network authentication system error has occurred."</td>
+			</tr>
+			<tr id="error_-107">
+				<td class="error_authentication">-107</td>
+				<td>sceDNAS2_SS_INTERNAL_ERROR</td>
+				<td>DNAS library (PS2) internal error while authentication DNAS server. "DNAS Error (-107) A network authentication system error has occurred." </td>
+			</tr>
+			<tr id="error_-108">
+				<td class="error_authentication">-108</td>
+				<td>sceDNAS2_SS_EXTERNAL_ERROR</td>
+				<td>DNAS server received corrupted data. "DNAS Error (-108) A network authentication system error has occurred." </td>
+			</tr>
+			<tr id="error_-201">
+				<td class="error_downloading">-201</td>
+				<td>sceDNAS2_SS_DL_NODATA</td>
+				<td>This title does not have a data download service. "DNAS Error (-201) A download error has occurred."</td>
+			</tr>
+			<tr id="error_-202">
+				<td class="error_downloading">-202</td>
+				<td>sceDNAS2_SS_DL_BEFORE_SERVICE</td>
+				<td>Data download service has not started for this title. "DNAS Error (-202) A download error has occurred."</td>
+			</tr>
+			<tr id="error_-203">
+				<td class="error_downloading">-203</td>
+				<td>sceDNAS2_SS_DL_OUT_OF_SERVICE</td>
+				<td>Data download service has ended for this title. "DNAS Error (-203) A download error has occurred."</td>
+			</tr>
+			<tr id="error_-204">
+				<td class="error_downloading">-204</td>
+				<td>sceDNAS2_SS_DL_NOT_UPDATED</td>
+				<td>No new download data. "DNAS Error (-204) A download error has occurred."</td>
+			</tr>
+			<tr id="error_-401">
+				<td class="error_hardware">-401</td>
+				<td>sceDNAS2_SS_INVALID_PS2</td>
+				<td>Invalid PS2 hardware. "DNAS Error (-401) A PS2 hardware information error has occurred."</td>
+			</tr>
+			<tr id="error_-402">
+				<td class="error_hardware">-402</td>
+				<td>sceDNAS2_SS_INVALID_MEDIA</td>
+				<td>Invalid disc. "DNAS Error (-402) A PS2 disc information error has occurred."</td>
+			</tr>
+			<tr id="error_-403">
+				<td class="error_hardware">-403</td>
+				<td>sceDNAS2_SS_INVALID_AUTHDATA</td>
+				<td>Invalid or corrupted disc authentication data. "DNAS Error (-403) A PS2 disc information error has occurred."</td>
+			</tr>
+			<tr id="error_-404">
+				<td class="error_hardware">-404</td>
+				<td>sceDNAS2_SS_INVALID_HDD_BINDING</td>
+				<td>Current PS2 and HDD combination is different than registered combination. "DNAS Error (-404) A PS2 hardware information error has occurred."</td>
+			</tr>
+			<tr id="error_-601">
+				<td class="error_network">-601</td>
+				<td>GLUE_ABORT</td>
+				<td>An network connection was aborted. "DNAS Error (-601) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-602">
+				<td class="error_network">-602</td>
+				<td>NET_PROXY</td>
+				<td>Proxy server error. "DNAS Error (-602) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-603">
+				<td class="error_network">-603</td>
+				<td>NET_TIMEOUT</td>
+				<td>Connection timed out. "DNAS Error (-603) Connection timed out." Please try connection again at a later time.</td>
+			</tr>
+			<tr id="error_-610">
+				<td class="error_network">-610</td>
+				<td>NET_SSL</td>
+				<td>An SSL session error occured. "DNAS Error (-610) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-611">
+				<td class="error_network">-611</td>
+				<td>NET_DNS_HOST_NOT_FOUND</td>
+				<td>The DNS resolver did not recognize the DNAS server host name. "DNAS Error (-611) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-612">
+				<td class="error_network">-612</td>
+				<td>NET_DNS_TRY_AGAIN</td>
+				<td>The DNS resolver cannot be found. "DNAS Error (-612) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-613">
+				<td class="error_network">-613</td>
+				<td>NET_DNS_NO_RECOVERY</td>
+				<td>The DNS resolver response is invalid. "DNAS Error (-613) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-614">
+				<td class="error_network">-614</td>
+				<td>NET_DNS_NO_DATA</td>
+				<td>The DNS resolver found no IP address for the DNAS server host name. "DNAS Error (-614) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-615">
+				<td class="error_network">-615</td>
+				<td>NET_DNS_OTHERS</td>
+				<td>Other DNS resolver-related errors. "DNAS Error (-615) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-616">
+				<td class="error_network">-616</td>
+				<td>NET_EISCONN</td>
+				<td>A server connection already exists from this client IP address. "DNAS Error (-616) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-617">
+				<td class="error_network">-617</td>
+				<td>NET_ETIMEOUT</td>
+				<td>A network timeout occurred. "DNAS Error (-617) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-618">
+				<td class="error_network">-618</td>
+				<td>NET_ECONNREFUSED</td>
+				<td>The connection was refused (the server is not running). "DNAS Error (-618) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-619">
+				<td class="error_network">-619</td>
+				<td>NET_ENETUNREACH</td>
+				<td>The network destination is unreachable. "DNAS Error (-619) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-620">
+				<td class="error_network">-620</td>
+				<td>NET_ENOTCONN</td>
+				<td>The network connection is down. "DNAS Error (-620) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-621">
+				<td class="error_network">-621</td>
+				<td>NET_ENOBUFS</td>
+				<td>An out-of-memory error occured. "DNAS Error (-621) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-622">
+				<td class="error_network">-622</td>
+				<td>NET_EMFILE</td>
+				<td>Unable to create any more network connections. "DNAS Error (-622) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-623">
+				<td class="error_network">-623</td>
+				<td>NET_EBADF</td>
+				<td>The title requested a network connection using an invalid value. "DNAS Error (-623) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-624">
+				<td class="error_network">-624</td>
+				<td>NET_EINVAL</td>
+				<td>The title requested a network function using invalid options. "DNAS Error (-624) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-625">
+				<td class="error_network">-625</td>
+				<td>NET_OTHERS</td>
+				<td>Other network-related errors. "DNAS Error (-625) A network error has occurred." Please double-check your network connection and/or network configuration.</td>
+			</tr>
+			<tr id="error_-626">
+				<td class="error_network">-626</td>
+				<td></td>
+				<td>"Connection to the DNAS server failed." The server and port the client attempted connecting to is closed.</td>
+			</tr>
+			<tr id="error_-701">
+				<td class="error_uid">-701</td>
+				<td>sceDNAS2_SS_ID_NOUSE</td>
+				<td>The title does not use the unique *category* ID feature. "DNAS Error (-701) A software category error has occurred."</td>
+			</tr>
+			<tr id="error_-702">
+				<td class="error_uid">-702</td>
+				<td>sceDNAS2_SS_ID_CAT_NOT_EXIST</td>
+				<td>The specified unique *category* ID category does not exist. "DNAS Error (-702) A software category error has occurred."</td>
+			</tr>
+			<tr id="error_-703">
+				<td class="error_uid">-703</td>
+				<td>sceDNAS2_SS_ID_NOT_JOIN_TO_CAT</td>
+				<td>The title does not belong to the specified unique *category* ID category. "DNAS Error (-703) A software category error has occurred."</td>
+			</tr>
+			<tr id="error_-832">
+				<td class="error_unexpected">-832</td>
+				<td></td>
+				<td>Unregistered title ID. Incorrect title ID in SYSTEM.CNF. Using the wrong regional DNAS library, thus talking to the wrong DNAS server. Using the production server (debug=0) without DNS redirection.</td>
+			</tr>
+			<tr id="error_-848">
+				<td class="error_unexpected">-848</td>
+				<td></td>
+				<td>Wrong authentication data or passphrase. </td>
+			</tr>
+			<tr id="error_-833">
+				<td class="error_unexpected">-833</td>
+				<td></td>
+				<td>Region Error.</td>
+			</tr>
+			<tr id="error_-840">
+				<td class="error_unexpected">-840</td>
+				<td></td>
+				<td>Server is down, try again later.</td>
+			</tr>
+			<tr id="error_-864">
+				<td class="error_unexpected">-864</td>
+				<td></td>
+				<td>Invalid media, Invalid DNAS Disc ID, Media Error e.g. using CD-R and DVD-R discs against the production server, or using manufactured discs against the development server.</td>
+			</tr>
+			<tr id="error_-880">
+				<td class="error_unexpected">-880</td>
+				<td></td>
+				<td>PS2 hardware incompatibility.</td>
+			</tr>
+			<tr id="error_-881">
+				<td class="error_unexpected">-881</td>
+				<td></td>
+				<td>PS2 hardware incompatibility.</td>
+			</tr>
+		</table>
+	</body>
+</html>

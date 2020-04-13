@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DNAS Authentication</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="description" content="A replacement DNAS server emulator for PlayStation Multiplayer Games">
+		<meta name="tags" content="Sony, PlayStation, DNAS, Dynamic Network Authentication System, authentication, replacement, emulator, uptime, multiplayer">
+		<meta property="og:title" content="DNAS Authentication">
+		<meta property="og:type" content="game">
+		<meta property="og:url" content="https://dnas.hashsploit.net">
+		<meta property="og:image" content="/favicon.png">
+		<meta property="og:site_name" content="DNAS Authentication">
+		<meta property="og:description" content="A replacement DNAS server emulator for PlayStation Multiplayer Games.">
+		<meta name="theme-color" content="#444444">
+		<meta name="msapplication-navbutton-color" content="#444444">
+		<meta name="apple-mobile-web-app-status-bar-style" content="#444444">
+		<link rel="stylesheet" type="text/css" href="/style.css">
+		<link rel="icon" type="image/png" href="/favicon.png">
+		<link type="application/json+oembed" href="/oembed.json">
+	</head>
+	<body>
+		<h1>OpenDNAS/us-gw</h1>
+		<h2>United States Gateway</h2>
+
+		<h3 id="test_endpoint">Test Endpoint</h3>
+		<noscript style="color:#FF0000"><b>JavaScript</b> is required to run a query test.</noscript>
+		<pre id="test_status" style="overflow-x:scroll"></pre>
+		<input id="test_submit" type="button" value="Run DNAS Test Query" disabled>
+
+		<h3 id="endpoints">Endpoints</h3>
+		<ul>
+			<li><a href="v2.5_i-connect">v2.5_i-connect</a></li>
+			<li><a href="v2.5_others">v2.5_others</a></li>
+		</ul>
+
+		<h3 id="cli">CURL Requests</h3>
+		<p>You may issue curl queries to try to better understand the DNAS system using the examples below:</p>
+		<p>This is a simple query consists of the <b class="type-query">Query</b> type (first four-bytes) and the <b class="type-gameid">Game ID</b> (starting at the 27th byte and lasting 8-bytes) to the <b>v2.5_others/</b> endpoint.</p>
+		<p>It should be noted the payload requires you to send raw-bytes for the <b class="type-query">Query</b> and <b class="type-gameid">Game ID</b>. The octrothropes (#) are just unknown/unused padded data.</p>
+		<pre>
+<!--<b>~ λ</b>--><b>$</b> curl -q --data "$(echo -e "<span class="type-query"><span class="bytes-similar-orange">\x01\x18</span>\x80\x01</span>#######################<span class="type-gameid">\x0d\x89\xfd\x58\x3d\x6c\x1c\x47</span>")" https://dnas.hashsploit.net/us-gw/v2.5_others 2>/dev/null | hexdump -C
+00000000  <span class="bytes-similar-orange">01</span> <span class="bytes-similar-orange">18</span> 80 06 01 09 2f 21  08 1e 07 1a 09 07 e0 <span class="bytes-similar-red">00</span>  |....../!........|
+00000010  <span class="bytes-similar-red">00</span> 6f 74 <span class="bytes-similar-red">00</span> <span class="bytes-similar-red">00</span> <span class="bytes-similar-red">00</span> 0f <span class="bytes-similar-red">00</span>  <span class="bytes-similar-red">00</span> <span class="bytes-similar-red">00</span> <span class="bytes-similar-red">00</span> <span class="type-gameid">0d</span> <span class="type-gameid">89</span> <span class="type-gameid">fd</span> <span class="type-gameid">58</span> <span class="type-gameid">3d</span>  |.ot...........X=|
+00000020  <span class="type-gameid">6c</span> <span class="type-gameid">1c</span> <span class="type-gameid">47</span> 49 <span class="bytes-similar-red">00</span> <span class="bytes-similar-red">00</span> 00 82  02 01 64 4b ce 11 ea e4  |l.GI......dK....|
+00000030  87 db 8c 70 39 b7 a2 3e  3b 3e 4c 11 ea 84 29 c8  |...p9..>;>L...).|
+00000040  36 35 27 bc 93 e5 6e 47  01 97 de 85 36 6b 4d 55  |65'...nG....6kMU|
+00000050  14 9f a7 6d 85 57 f2 89  77 e5 07 4a 69 c5 b5 da  |...m.W..w..Ji...|
+00000060  a9 02 2a 77 85 f6 bd a7  7c b3 3b 24 34 a9 0d 9c  |..*w....|.;$4...|
+00000070  f6 d4 e4 cc ff 0e 37 bc  bb 9a ab cf d8 cb 3b a6  |......7.......;.|
+00000080  9b 7d f3 e3 cf e7 fd 34  f8 47 50 de a9 93 0c 62  |.}.....4.GP....b|
+00000090  4c 43 68 7a af 49 7e b1  5d be b0 25 41 b4 0d 25  |LChz.I~.]..%A..%|
+000000a0  7a 03 2e ec 34 cd 47 b1  68 3d                    |z...4.G.h=|
+000000aa
+		</pre>
+		<p>If you get the response below, your query, game id, or padding is incorrect:</p>
+		<pre>
+00000000  <span class="bytes-similar-orange">01</span> <span class="bytes-similar-orange">18</span> 00 04 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00000010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00000020  00 00 00 00 00 00 00 01  40                       |........@|
+00000029
+		</pre>
+
+		<h3 id="games">Games</h3>
+		<p>List of supported game titles this gateway has available:</p>
+		<ul>
+			<li>AllStar Baseball 2005</li>
+			<li>ATV Offroad Fury 3</li>
+			<li>ATV Offroad Fury 4</li>
+			<li>Battlefield 2 Modern Combat</li>
+			<li>Blitz The League</li>
+			<li>Burnout 3 Takedown</li>
+			<li>Burnout Revenge</li>
+			<li>Call of Duty 2 Big Red One</li>
+			<li>Call of Duty 3</li>
+			<li>Call of Duty Finest Hour</li>
+			<li>Champions of Norrath</li>
+			<li>Champions Return to Arms</li>
+			<li>Cold Winter</li>
+			<li>Commandos Strike Force</li>
+			<li>Conflict Global Terror</li>
+			<li>Crash n Burn</li>
+			<li>Deer Hunter</li>
+			<li>Destruction Derby Arenas</li>
+			<li>FlatOut 2</li>
+			<li>Gauntlet Seven Sorrows</li>
+			<li>Greg Hastings Tournament Paintball MAXD</li>
+			<li>Hot Wheels Stunt Track Challenge</li>
+			<li>JAK X Combat Racing</li>
+			<li>KILLZONE</li>
+			<li>MADDEN NFL 07</li>
+			<li>Madden NFL 2004</li>
+			<li>Medal of Honor Rising Sun</li>
+			<li>Midnight Club 3 DUB Edition Remix</li>
+			<li>MLB 06 The Show</li>
+			<li>Monster Hunter</li>
+			<li>Mortal Kombat Armageddon</li>
+			<li>NASCAR 07</li>
+			<li>NASCAR Thunder 2004</li>
+			<li>NBA Ballers</li>
+			<li>NBA Ballers Phenom</li>
+			<li>Need for Speed Underground</li>
+			<li>Need for Speed Underground 2</li>
+			<li>Network Adaptor StartUp Disc V2</li>
+			<li>Network Adaptor StartUp Disc V25</li>
+			<li>Network Start Up Disc v4</li>
+			<li>NFL Street 2</li>
+			<li>Phantasy Star Universe</li>
+			<li>Phantasy Star Universe Ambition of the Illuminus</li>
+			<li>Ratchet &amp; Clank Up Your Arsenal</li>
+			<li>Ratchet Deadlocked</li>
+			<li>Resident Evil Outbreak File 1</li>
+			<li>Resident Evil Outbreak File 2</li>
+			<li>Risk Global Domination</li>
+			<li>Robotech Invasion</li>
+			<li>Rogue Trooper</li>
+			<li>Sniper Elite</li>
+			<li>Socom II US NAVY SEALs</li>
+			<li>Socom III US NAVY SEALs</li>
+			<li>Socom US NAVY SEALs Combined Assault</li>
+			<li>Stacked with Daniel Negreanu</li>
+			<li>Star Wars Battlefront</li>
+			<li>Star Wars Battlefront II</li>
+			<li>Syphon Filter The Omega Strain</li>
+			<li>The Sims Busting Out</li>
+			<li>TimeSplitters Future Perfect</li>
+			<li>ToCA Race Driver 3</li>
+			<li>Tony Hawks American Wasteland</li>
+			<li>Tony Hawks Underground</li>
+			<li>Tony Hawks Underground 2</li>
+			<li>Urban Chaos Riot Response</li>
+			<li>X Men Legends II Rise of Apocalypse</li>
+			<li>XIII</li>
+		</ul>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" defer></script>
+		<script src="script.js?v=31" defer></script>
+	</body>
+</html>

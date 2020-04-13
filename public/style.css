@@ -1,0 +1,51 @@
+/* Index page error colors */
+.error_authentication {
+	background-color: #FFCC99;
+}
+
+.error_downloading {
+	background-color: #99FF99;
+}
+
+.error_hardware {
+	background-color: #CCCCCC;
+}
+
+.error_network {
+	background-color: #FFFF99;
+}
+
+.error_uid {
+	background-color: #FF99FF;
+}
+
+.error_unexpected {
+	background-color: #FF9999;
+}
+
+
+/* Documentation coloring */
+.type-query {
+	color: #550070;
+}
+
+.type-gameid {
+	color: #008800;
+}
+
+.bytes-similar-orange {
+	background-color: rgba(255, 128, 0, 0.4);
+}
+
+.bytes-similar-cyan {
+	background-color: rgba(0, 255, 255, 0.4);
+}
+
+.bytes-similar-red {
+	background-color: rgba(255, 0, 0, 0.4);
+}
+
+.bytes-similar-pink {
+	background-color: rgba(255, 0, 255, 0.4);
+}
+
