@@ -3,7 +3,7 @@
 An Open Source replacement DNAS server.
 
 ### What is OpenDNAS
-OpenDNAS is a Open Source implementation of the production DNAS servers hosted by SCEI for authenticating clients to play multiplayer games.
+OpenDNAS is a Open Source implementation of the production DNAS servers hosted by SCEI for authenticating Sony PlayStation clients to play multiplayer games.
 
 On April 4, 2016; SCEI discontinued the official DNAS servers, thus forcefully taking down hundreds of multiplayer game titles with it.
 
