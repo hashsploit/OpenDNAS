@@ -19,7 +19,7 @@ OpenDNAS aims to be a solution to this, providing successful authentication for 
 ### Installation
 Please do not run this application on a production system directly. This application requires OpenSSL 1.0.2i (SSLv2) to be compiled which is not secure anymore.
 
-Instead use a container. Such as [hnc-opendnas](https://github.com/hashsploit/hnc-opendnas).
+Instead use a container. Such as [hnc-opendnas](https://github.com/hashnet0/hnc-opendnas).
 
 A sample `nginx.vhost` has been provided.
 
