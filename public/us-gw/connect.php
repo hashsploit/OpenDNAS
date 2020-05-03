@@ -1,8 +1,5 @@
 <?php
-/*
-DNASrep - DNAS replacement server
-Copyright (C) 2016 the_fog@1337.rip
-*/
+// Inspired by DNASrep by the_fog@1337.rip
 
 function encrypt3($data, $offset, $length, $des_key1, $des_key2, $des_key3, $xor_seed) {
 	$key = $xor_seed;
@@ -29,27 +26,26 @@ function encrypt3($data, $offset, $length, $des_key1, $des_key2, $des_key3, $xor
 
 
 // get the body of the initial packet
-$packet  = file_get_contents('php://input');
-//                           44, 8
-$gameID  = substr($packet, 0x2c, 8);
-$qrytype = substr($packet, 0, 4);
-$fname   = bin2hex($gameID)."_".bin2hex($qrytype);
+$packet  = @file_get_contents('php://input');
+if (!empty($packet)) {
+	$gameID  = substr($packet, 0x2c, 8);
+	$qrytype = substr($packet, 0, 4);
+	$fname   = bin2hex($gameID)."_".bin2hex($qrytype);
 
-// step 0 - create the checksums and keys for the answer packet
-//                                 54,   256
-$chksum1  = sha1(substr($packet, 0x34, 0x100));
-//                                 72,   236
-$chksum2  = sha1(substr($packet, 0x48,  0xec));
-$fullkey  = substr($chksum2, 0, 0x14*2) . substr($chksum1, 0, 0x0c*2);
-$des_key1 = pack("H*", substr($fullkey,    0, 0x10));
-$des_key2 = pack("H*", substr($fullkey, 0x10, 0x10));
-$des_key3 = pack("H*", substr($fullkey, 0x20, 0x10));
-$xor_seed = pack("H*", substr($fullkey, 0x30, 0x10));
+	// step 0 - create the checksums and keys for the answer packet
+	$chksum1  = sha1(substr($packet, 0x34, 0x100));
+	$chksum2  = sha1(substr($packet, 0x48,  0xec));
+	$fullkey  = substr($chksum2, 0, 0x14*2) . substr($chksum1, 0, 0x0c*2);
+	$des_key1 = pack("H*", substr($fullkey,    0, 0x10));
+	$des_key2 = pack("H*", substr($fullkey, 0x10, 0x10));
+	$des_key3 = pack("H*", substr($fullkey, 0x20, 0x10));
+	$xor_seed = pack("H*", substr($fullkey, 0x30, 0x10));
+}
 
 // step 1 - prepare the answer
-$packet = file_get_contents(__DIR__ . '/packets/' . $fname);
+$packet = @file_get_contents(__DIR__ . '/packets/' . $fname);
 if (empty($packet)) {
-	$packet = file_get_contents(__DIR__ . '/error.raw');
+	$packet = @file_get_contents(__DIR__ . '/error.raw');
 } else {
 	// step 2 - encrypt with keyset from query packet
 	$packet = encrypt3($packet, 0xc8, 0x20, $des_key1, $des_key2, $des_key3, $xor_seed);
@@ -60,7 +56,7 @@ if (empty($packet)) {
 
 // send the answer
 header("HTTP/1.0 200 OK");
-//header("Content-Type: image/gif");
+header("Content-Type: text/html");
 header("Content-Length: " . strlen($packet));
 echo $packet;
 
