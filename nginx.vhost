@@ -39,7 +39,7 @@ server {
 			fastcgi_send_timeout 30;
 			fastcgi_read_timeout 30;
 			fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-			fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+			fastcgi_pass unix:/var/run/php/php7.0.15-fpm.sock;
 			include fastcgi_params;
 		}
 	}
@@ -50,7 +50,7 @@ server {
 		fastcgi_send_timeout 30;
 		fastcgi_read_timeout 30;
 		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-		fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+		fastcgi_pass unix:/var/run/php/php7.0.15-fpm.sock;
 		include fastcgi_params;
 	}
 }
@@ -80,7 +80,7 @@ server {
 			fastcgi_send_timeout 30;
 			fastcgi_read_timeout 30;
 			fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-			fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+			fastcgi_pass unix:/var/run/php/php7.0.15-fpm.sock;
 			include fastcgi_params;
 		}
 	}
@@ -91,7 +91,7 @@ server {
 		fastcgi_send_timeout 30;
 		fastcgi_read_timeout 30;
 		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-		fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+		fastcgi_pass unix:/var/run/php/php7.0.15-fpm.sock;
 		include fastcgi_params;
 	}
 }
@@ -121,7 +121,7 @@ server {
 			fastcgi_send_timeout 30;
 			fastcgi_read_timeout 30;
 			fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-			fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+			fastcgi_pass unix:/var/run/php/php7.0.15-fpm.sock;
 			include fastcgi_params;
 		}
 	}
@@ -132,7 +132,7 @@ server {
 		fastcgi_send_timeout 30;
 		fastcgi_read_timeout 30;
 		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-		fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+		fastcgi_pass unix:/var/run/php/php7.0.15-fpm.sock;
 		include fastcgi_params;
 	}
 }

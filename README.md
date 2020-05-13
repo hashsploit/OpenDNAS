@@ -13,7 +13,7 @@ OpenDNAS aims to be a solution to this, providing successful authentication for 
 ### Requirements
 - nginx
 - OpenSSL 1.0.2i (or older, as long as it supports SSLv2)
-- php7.3-fpm
+- php7.0.15-fpm (mcrypt_encrypt [removed in 7.2](https://www.php.net/manual/en/function.mcrypt-encrypt.php))
 
 
 ### Installation
